@@ -1,1 +1,13 @@
-body {background-color: red;}
+.matrix {
+  margin: 10px 0;
+  padding: 0;
+  display: grid;
+}
+
+.matrix > li {
+  list-style-type: none;
+}
+
+.bold {
+  font-weight: bold;
+}
