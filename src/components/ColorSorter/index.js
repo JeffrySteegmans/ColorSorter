@@ -5,6 +5,7 @@ import InsertionSort from '../../services/algorithms/insertionsort';
 import SelectionSort from '../../services/algorithms/selectionsort';
 
 import Matrix from '../Matrix';
+import ImagePicker from '../ImagePicker';
 
 class ColorSorter extends React.Component {
   constructor(props){
@@ -15,7 +16,8 @@ class ColorSorter extends React.Component {
       sortedColors: [],
       matrixWidth: 360,
       gridSize: 25,
-      sortAlgorithm: 'bubblesort'
+      sortAlgorithm: 'bubblesort',
+      showSpinner: false
     }
     this.state.colors = generateListOfRandomColors(this.state.gridSize*this.state.gridSize);
 
@@ -23,6 +25,7 @@ class ColorSorter extends React.Component {
     this.handleSortAlgorithmChange = this.handleSortAlgorithmChange.bind(this);
     this.handleSortColorsClick = this.handleSortColorsClick.bind(this);
     this.handleGenerateColorsClick = this.handleGenerateColorsClick.bind(this);
+    this.handleImageLoaded = this.handleImageLoaded.bind(this);
   }
 
   handleSortAlgorithmChange(e) {
@@ -77,6 +80,16 @@ class ColorSorter extends React.Component {
     });
   }
 
+  handleImageLoaded(image){
+    this.setState({
+      colors: image.matrix,
+      sortedColors: [],
+      gridSize: image.width,
+      showSpinner: false,
+      spinnermsg: 'Loading...'
+    });
+  }
+
   clearColors() {
     this.setState({ colors: [] });
     this.clearSorted();
@@ -98,6 +111,9 @@ class ColorSorter extends React.Component {
             <input type="number" min="10" max="360" step="1" id="gridSize" value={this.state.gridSize} onChange={this.handleGridSizeChange} />
           </label>
           <button id="regeneratecolors" onClick={this.handleGenerateColorsClick}>Generate colors</button>
+        </div>
+        <div>
+          <ImagePicker onImageLoaded={this.handleImageLoaded} />
         </div>
         <div>
           <label>
