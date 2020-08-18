@@ -75,19 +75,17 @@ class ColorSorter extends React.Component {
 
   handleGenerateColorsClick(e){
     this.setState({
-      colors: generateListOfRandomColors(this.state.gridSize * this.state.gridSize),
-      sortedColors: []
+      colors: generateListOfRandomColors(this.state.gridSize * this.state.gridSize)
     });
+    this.clearSorted();
   }
 
   handleImageLoaded(image){
     this.setState({
       colors: image.matrix,
-      sortedColors: [],
-      gridSize: image.width,
-      showSpinner: false,
-      spinnermsg: 'Loading...'
+      gridSize: image.width
     });
+    this.clearSorted();
   }
 
   clearColors() {

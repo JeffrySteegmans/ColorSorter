@@ -15,14 +15,29 @@ class ImagePicker extends React.Component {
 
       var img = new Image();
       img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          let ctx = canvas.getContext('2d');
-          ctx.drawImage(img,0,0);
-          image.matrix = ConvertImageToColorArray(canvas.getContext('2d').getImageData(0, 0, img.width, img.height).data);
-          image.width = img.width;
-          image.height = img.height;
-          this.props.onImageLoaded(image);
+        let width = img.width;
+        let height = img.height;
+        let maxWidth = 100;
+        let maxHeight = 100;
+        if (img.width > maxWidth) {
+          let ratio = maxWidth / width;
+          width = 100;
+          height = img.height * ratio;
+        }
+        if (height > maxHeight) {
+          let ratio = maxHeight / height;
+          height = 100;
+          width = img.width * ratio;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        image.matrix = ConvertImageToColorArray(canvas.getContext('2d').getImageData(0, 0, width, height).data);
+        image.width = width;
+        image.height = height;
+        this.props.onImageLoaded(image);
       }
       img.src = e.target.result;
     };
