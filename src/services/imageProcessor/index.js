@@ -16,12 +16,12 @@ export function GetResizedImageDimensions(img, maxWidth, maxHeight) {
   if (width > maxWidth) {
     let ratio = maxWidth / width;
     width = maxWidth;
-    height = img.height * ratio;
+    height = Math.round(img.height * ratio);
   }
   if (height > maxHeight) {
     let ratio = maxHeight / height;
     height = maxHeight;
-    width = width * ratio;
+    width = Math.round(width * ratio);
   }
 
   return {
@@ -36,6 +36,7 @@ export function GetCanvasData(img, width, height) {
   canvas.height = height;
   let ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, width, height);
+
   return ctx.getImageData(0, 0, width, height).data;
 }
 

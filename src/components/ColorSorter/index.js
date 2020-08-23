@@ -16,6 +16,7 @@ class ColorSorter extends React.Component {
       sortedColors: [],
       matrixWidth: 360,
       gridSize: 25,
+      pixelSize: 5,
       sortAlgorithm: 'bubblesort',
       showSpinner: false
     }
@@ -124,13 +125,13 @@ class ColorSorter extends React.Component {
           </label>
           <button id="sortColors" onClick={this.handleSortColorsClick} disabled={this.state.colors.length<1}>Sort</button>
         </div>
-        <Matrix gridSize={this.state.gridSize} colors={this.state.colors} />
+        <Matrix gridSize={this.state.gridSize} pixelSize={this.state.pixelSize} colors={this.state.colors} />
         <h2>Sorted</h2>
         <p>
           Sorting algorithm: <span id="selectedAlgorithm" className="bold"></span><br />
           Sorted in: <span id="elapsedTime" className="bold"></span>
         </p>
-        <Matrix gridSize={this.state.gridSize} colors={this.state.sortedColors} />
+        <Matrix gridSize={this.state.gridSize} pixelSize={this.state.pixelSize} colors={this.state.sortedColors} />
       </section>
     );
   }
