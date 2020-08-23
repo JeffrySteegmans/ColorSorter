@@ -1,13 +1,12 @@
 import React from 'react';
-import ConvertImageToColorArray from '../../services/imageProcessor';
+import { ConvertImageToColorArray, GetResizedImageDimensions, GetCanvasData } from '../../services/imageProcessor';
 
 class ImagePicker extends React.Component {
 
   handleImage(e){
     var reader = new FileReader();
     reader.onload = (e) => {
-      let canvas = document.createElement('canvas');
-      let image = {
+      let imageData = {
         matrix: [],
         width: 0,
         height: 0
@@ -15,29 +14,12 @@ class ImagePicker extends React.Component {
 
       var img = new Image();
       img.onload = () => {
-        let width = img.width;
-        let height = img.height;
-        let maxWidth = 100;
-        let maxHeight = 100;
-        if (img.width > maxWidth) {
-          let ratio = maxWidth / width;
-          width = 100;
-          height = img.height * ratio;
-        }
-        if (height > maxHeight) {
-          let ratio = maxHeight / height;
-          height = 100;
-          width = img.width * ratio;
-        }
+        imageData = {...imageData, ...GetResizedImageDimensions(img, 100, 100) };
 
-        canvas.width = width;
-        canvas.height = height;
-        let ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        image.matrix = ConvertImageToColorArray(canvas.getContext('2d').getImageData(0, 0, width, height).data);
-        image.width = width;
-        image.height = height;
-        this.props.onImageLoaded(image);
+        let canvasData = GetCanvasData(img, imageData.width, imageData.height);
+        imageData.matrix = ConvertImageToColorArray(canvasData);
+
+        this.props.onImageLoaded(imageData);
       }
       img.src = e.target.result;
     };
